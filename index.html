@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Study the role of on-policy sampling and negative gradients in existing preference fine-tuning algorithms.">
+  <meta name="keywords" content="RLHF, Preference Fine-Tuning, Synthetic Data, PPO, DPO, RL, LLMs">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Understanding RLHF</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation" style="background-color: #333; color: #fff;">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" style="color: #fff;">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="#abstract" style="color: #fff; border-bottom: 0px solid #fff;">
+        Abstract
+      </a>
+      <a class="navbar-item" href="#setup" style="color: #fff; border-bottom: 0px solid #fff;">
+        Setup
+      </a>
+      <a class="navbar-item" href="#empirical" style="color: #fff; border-bottom: 0px solid #fff;">
+        Empirical Analysis
+      </a>
+      <a class="navbar-item" href="#theory" style="color: #fff; border-bottom: 0px solid #fff;">
+        Theoretical Analysis
+      </a>
+      <a class="navbar-item" href="#BibTeX" style="color: #fff; border-bottom: 0px solid #fff;">
+        BibTeX
+      </a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Preference Fine-Tuning of LLMs Should Leverage Suboptimal, On-Policy Data</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://tajwarfahim.github.io/">Fahim Tajwar</a><sup>*1</sup>,</span>
+            <span class="author-block">
+              <a href="https://asap7772.github.io/">Anikait Singh</a><sup>*2</sup>,</span>
+              <span class="author-block">
+              <a href="https://architsharma97.github.io/">Archit Sharma</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://rmrafailov.github.io/">Rafael Rafailov</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://www.cs.cmu.edu/~schneide/">Jeff Schneider</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://tengyangxie.github.io/">Tengyang Xie</a><sup>3</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://cs.stanford.edu/~ermon/">Stefano Ermon</a><sup>2</sup>
+            </span>
+            <span class="author-block">
+              <a href="https://ai.stanford.edu/~cbfinn/">Chelsea Finn</a><sup>2</sup>
+            </span>
+            <span class="author-block">
+              <a href="https://aviralkumar2907.github.io/">Aviral Kumar</a><sup>4</sup>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>*</sup>Equal Contribution (coin-flip)</span>
+            <span class="author-block"><sup>1</sup>Carnegie Mellon University</span>
+            <span class="author-block"><sup>2</sup>Stanford University</span>
+            <br/>
+            <span class="author-block"><sup>3</sup>University of Wisconsin, Madison</span>
+            <span class="author-block"><sup>4</sup>Google DeepMind</span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              ICML 2024
+            </span>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/2404.14367.pdf"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2404.14367"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/Asap7772/understanding-rlhf"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <img src="./static/images/final_picture_teaser.jpg"
+        alt="Teaser image."
+        class="teaser-image"/>
+      <h2 class="subtitle has-text-centered">
+        Which approaches are important for fine-tuning LLMs with preference data and why? Our main finding is that approaches 
+        that utilize on-policy sampling or attempt to push down the likelihood on certain responses (e.g., those with negative gradient 
+        such as DPO) tend to outperform offline and maximum likelihood objectives. Combining on-policy sampling with methods that 
+        handle negative gradients well leads to complementary benefits. In this paper, we investigate the behavior of preference 
+        fine-tuning methods under various coverage conditions and arrive at these conclusions. 
+      </h2>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3" id="abstract">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Learning from preference labels plays a crucial role in fine-tuning large language models. There are several
+            distinct approaches for preference fine-tuning, including supervised learning, on-policy reinforcement learning
+            (RL), and contrastive learning. Different methods come with different implementation tradeoffs and perfor-
+            mance differences, and existing empirical findings present different conclusions, for instance, some results
+            show that online RL is quite important to attain good fine-tuning results, while others find (offline) contrastive
+            or even purely supervised methods sufficient. This raises a natural question: what kind of approaches are
+            important for fine-tuning with preference data and why? In this paper, we answer this question by performing
+            a rigorous analysis of a number of fine-tuning techniques on didactic and full-scale LLM problems. Our main
+            finding is that, in general, approaches that use on-policy sampling or attempt to minimize the likelihood on
+            certain responses (i.e., employ a negative gradient) outperform offline and maximum likelihood objectives. We
+            conceptualize our insights and unify methods that use on-policy sampling or negative gradient under the notion
+            of mode-seeking objectives, extended to categorical distributions. Mode-seeking objectives are able to alter
+            probability mass on specific bins of a categorical distribution at a fast rate compared to maximum likelihood,
+            allowing them to relocate masses across bins more effectively. Our analysis prescribes actionable insights for
+            preference fine-tuning of LLMs and informs how data should be collected for maximal improvement.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+  <hr>
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Animation. -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+
+        <h2 class="title is-3" id="setup">Setup</h2>
+        <div class="content has-text-justified">
+          <p>
+            We considered three problems for our experiments: (1) a didactic bandit problems that are easy to simulate, (2) Synthetic LLM 
+            fine-tuning problems, where ground-truth reward functions exist and are easy to track (though we still train the policy against a proxy reward model), 
+            and (3) Full-scale LLM fine-tuning on AlpacaFarm and UltraFeedback. We use these problems to study the impact of on-policy sampling
+            and negative gradients on performance and behavior of algorithms.
+          </p>
+        </div>
+        
+        <h3 class="title is-4">Didactic Bandit</h3>
+        <div class="content has-text-justified">
+          <!-- Create Bullet Point List to Summarize -->
+          <ul>
+            <li> Simple bandit problem with controllable ground-truth reward function and combinatorial response space </li>
+          </ul>
+        </div>
+
+        <h3 class="title is-4">Synthetic LLM</h3>
+        <div class="content has-text-justified">
+          <!-- Create Bullet Point List to Summarize -->
+          <ul>
+            <li> Used to study the impact of coverage conditions and geometric relationships on different fine-tuning algorithms</li>
+            <li> Constructed 3 different scenarios based on the length of the response:</li>
+            <ul>
+              <li><b>Min length:</b> preferred responses are shorter in length. </li>
+              <li><b>Mode length:</b> preferred responses are close to the mode length of responses in the preference dataset.</li>
+              <li><b>Skew length:</b> preferred responses are shorter in length, but we modify the preference dataset from Min Length, where dataset completions are truncated to shorter lengths, leading to a skewed length distribution.</li>
+            </ul>
+          </ul>
+        </div>
+
+        <h3 class="title is-4">Full-Scale LLM</h3>
+        <div class="content has-text-justified">
+          <!-- Create Bullet Point List to Summarize -->
+          <ul>
+            <li>Used to study the impact of fine-tuning algorithms on realistic LLM fine-tuning data</li>
+            <li>AlpacaFarm and UltraFeedback are commonly used domains</li>
+          </ul>
+        </div>
+
+        <h3 class="title is-4">Coverage Conditions and Geometric Relationships</h3>
+
+        <div class="content has-text-justified">
+          <p>
+            The performance of preference-finetuning algorithms can be affected by several factors: (1) the coverage of the preference dataset, 
+            (2) the reference policy initialization, and (3) the underlying ground truth reward distribution. To study this impact, we consider two
+            orthogonal axes: [C1] the geometric alignment between the ground-truth reward function and the reference policy initialization and [C2] the 
+            coverage of the preference data used to train the surrogate reward model relative to the reference policy. Condition [C1] is reminiscent of 
+            concentrability coefficient in RL and condition [C2] fundamentally imposes a condition on statistical errors in the reward model on different responses. 
+          </p>
+
+          <p>
+            Understanding the behavior of various approaches as a function of these factors will allow us to better understand the performance of 
+            various approaches on downstream fine-tuning in terms of problem geometry [C1] and statistical learning considerations [C2]. More concretely, in the synthetic LLM setting we consider the following cases
+          </p>
+        </div>
+        
+        <center>
+        <img src="./static/images/coverage.png"
+          width="90%"
+          alt="On-Policy Sampling."
+          class="on-policy-image"/>
+        </center>
+        
+        <div class="content has-text-centered">
+          <p>
+            We consider three different types of problem scenarios: Min Length, Mode Length, and Skew Length These scenarios are designed to test the
+            performance of different fine-tuning algorithms under different conditions.
+          </p>
+        </div>
+
+        <hr>
+
+        <h2 class="title is-3" id="empirical">Empirical Analysis</h2>
+
+        <!-- Interpolating. -->
+        <h3 class="title is-4">Characterizing Fine-Tuning Methods</h3>
+        In this work, we study the role of on-policy sampling and negative gradients in existing preference fine-tuning algorithms. 
+        We characterize fine-tuning methods based on three key properties:
+        <div class="content has-text-justified">
+          <ol>
+            <li><b>on-policy sampling:</b> explicit sampling of new responses from the policy or purely learning from offline data</li>
+            <li><b>on-policy sample reuse:</b> for only those approaches that perform on-policy sampling, whether the approach makes more 
+              than one gradient update on a given prompt-response (𝑥, 𝑦) pair</li>
+            <li><b>negative gradient:</b> whether the approach explicitly minimizes a loss that attempts to “push-down” likelihood on 
+              certain responses by multiplying the gradient of their likelihood with a negative coefficient </li>
+          </ol>
+        </div>
+        <center>
+        <img src="./static/images/characterize.png"
+          alt="On-Policy Sampling."
+          width="75%"
+          class="on-policy-image"/>
+        </center>
+        <div class="content has-text-centered">
+          We characterize existing fine-tuning methods using these criterion.
+        </div>
+        <!-- Interpolating. -->
+        <h3 class="title is-4">On-Policy Sampling</h3>
+        <div class="content has-text-justified">
+          <p>
+            To study the impact of on-policy sampling, we vary the extent to which updates are made on data from the current policy. 
+            Below, we introduce Algorithm 1, which is a encapsulates how fine-tuning algorithms updates on preference data.
+          </p>
+        </div>
+        <center>
+        <img src="./static/images/finetuning_algo.png"
+          alt="Algorithm 1."
+          width="75%"
+          class="algo-one-image"/>
+        </center>
+        <div class="content has-text-centered">
+          We characterize existing fine-tuning methods using the following algorithmic formulation.
+        </div>
+
+        <div class="content has-text-justified">
+          <p>
+            One way in which we can control the amount of on-policy sampling in Algorithm 1 is by by varying the total number of samples |𝒟| = 𝐵/𝐶 × 𝐶 = 𝐵 
+            used for a given training iteration but keeping minibatch size 𝑀 used for the gradient update fixed, assuming the algorithm performs exactly one pass over all this sampled data. One result from the paper is shown below:
+          </p>
+        </div>
+
+        <center>
+        <img src="./static/images/alpaca_bs.png"
+          width="90%"
+          alt="On-Policy Sampling."
+          class="on-policy-image"/>
+        </center>
+        <div class="content has-text-centered">
+          <p>
+            <b>Performance on AlpacaFarm with varying batch sizes.</b> We see that decreasing the batch size improves performance, 
+            which leads to more on-policy sampling leads to better performance on the AlpacaFarm domain. Empirically, we see benefits 
+            of this sampling when the reference policy is far from the optimal policy.
+          </p>
+        </div>
+        
+        <div class="box" style="background-color:aliceblue">
+          <div class="content has-text-justified">
+            <p>
+              <b>Takeaway: </b>On-policy sampling generally improves performance and efficiency, especially in cases when the 
+              peak of reward appears farther from the reference policy, even when the reward model is learned from the same 
+              preference dataset that methods use without on-policy learning also use. In some cases, sample reuse can reduce 
+              the dependency on on-policy sampling of data, but it presents a tradeoff by reducing exploration of the response space.
+            </p>
+          </div>
+        </div>
+        <!--/ Interpolating. -->
+
+        <!-- Re-rendering. -->
+        <h3 class="title is-4">Negative Gradients</h3>
+        <div class="content has-text-justified">
+          <p>
+          To understand the role of negative gradient, we will compare contrastive algorithms (e.g., DPO or IPO) with maximum likelihood supervised methods (e.g., Best-of-N) in a fully offline setting, 
+          where no new on-policy samples are collected. In the paper, we compare various algorithms and also explore mechanisms behind the behaviors of methods. 
+
+          Our main finding is that negative gradients often speed up convergence of algorithms, often allowing them to reach a better solution. For example, 
+          in one of the settings, we compare supervised Best-of-N to supervised Best-of-N with a negative gradient explicitly added and observe that the latter
+          is able to quickly learn to find a better solution. Likewise we also find DPO attains better results.
+          </p>
+        </div>
+
+        <center>
+        <img src="./static/images/neg_grad.png"
+          width="90%"
+          alt="On-Policy Sampling."
+          class="on-policy-image"/>
+        </center>
+        
+        <div class="content has-text-centered">
+          <p>
+            <b>Negative gradients in AlpacaFarm (left) and UltraFeedback (right).</b> For these domains, we consider the increase in average gold reward 
+            compared to the SFT model for different offline approaches. Algorithms with a negative gradient such as DPO outperform approaches 
+            such as Pref-FT, which do not utilize any negative gradient term in their objective.
+          </p>
+        </div>
+
+        <center>
+        <img src="./static/images/neg_grad_rew.png"
+          width="90%"
+          alt="On-Policy Sampling."
+          class="on-policy-image"/>
+        </center>
+        <div class="content has-text-centered">
+          <p>
+            <b>DPO vs Pref-FT Reward Margin.</b> The reward margin between the preferred and dispreferred responses for contrastive algorithms such as 
+            DPO is higher than maximum likelihood algorithms such as Pref-FT.
+          </p>
+        </div>
+        
+        <div class="box" style="background-color:aliceblue">
+          <div class="content has-text-justified">
+            <p>
+              <b>Takeaway: </b> A negative gradient improves over offline supervised methods when the peak in the reward appears in less 
+              likely regions of the reference policy. It can increase the likelihood of the preferred response, when the dispreferred response is sufficiently 
+              different from the prefered response, model capacity is large, and the reference initialization is chosen appropriately. 
+              If not, the margin between log likelihoods of preferred and dispreferred will still be larger when a negative gradient is used, 
+              but the recovered probability mass will go into increasing likelihoods of other responses, not the preferred response necessarily.
+            </p>
+          </div>
+        </div>
+
+        <h3 class="title is-4">Complementary Nature of On-Policy Sampling and Negative Gradients</h3>
+        <div class="content has-text-justified">
+          <p>
+            On-policy sampling and offline negative gradients present complementary benefits, in that
+            the best offline loss function with negative gradients can be used to train on on-policy data,
+            improving over on-policy RL or supervised learning. Conceptually, while sampling responses
+            on-policy provides coverage of the response space, an effective negative gradient loss provides
+            a stronger learning signal given a set of samples. It can also result in computational benefits.
+          </p>
+        </div>
+
+        <center>
+        <img src="./static/images/complimentarity.png"
+          width="90%"
+          alt="On-Policy Sampling."
+          class="on-policy-image"/>
+        </center>
+        
+        <div class="content has-text-centered">
+          <p>
+            <b>Complementary benefit of on-policy sampling and negative gradients on the synthetic LLM length experiments.</b> 
+            Online DPO performs the best where optimal policy and reference policy lies far from each other 
+            (min length and skew length), and all algorithms perform similarly when these two policies are close (mode length).
+          </p>
+        </div>
+        <!--/ Re-rendering. -->
+
+        <div class="box" style="background-color:aliceblue">
+          <div class="content has-text-justified">
+            <p>
+              <b>Takeaway: </b>We observe that the best offline loss function with negative gradients can be used to train on on-policy data, improving over on-policy RL or supervised learning. 
+              In our experiments, we find this loss function to be a contrastive loss akin to DPO or IPO. Running these contrastive methods on on-policy data helps improve performance. 
+              This can also result in computational benefits, improving over wall-clock time.
+            </p>
+          </div>
+        </div>
+        
+        <hr>
+        
+        <h2 class="title is-3" id="theory">Theory and Conceptual Unification</h2>
+        <div class="content has-text-justified">
+          <p>
+            With empirical results showing the benefits of on-policy sampling and negative gradient for preference fine-tuning of LLMs, 
+            we tie these two approaches together under the notion of mode-seeking objectives in contrast to mode-covering objectives 
+            such as (weighted / filtered) maximum likelihood.
+          </p>
+          <p>
+            In the paper, we argue (in Lemmas 6.1 and 6.2) that (1) on-policy algorithms are mode-seeking as they optimize the regularized
+            reverse-KL objective and (2) if the negative responses are chosen appropriately, then the contrastive update accelerates the 
+            rate of increase of probability mass on the preferred responses and exhibits mode-seeking behavior. For more details, 
+            formal definitions, and the proof of these theoretical results, please refer to the paper.
+        </div>
+        <div class="content has-text-justified">
+          <p>
+            We then also analyze the benefits of mode-seeking behavior formally via a case study on reverse (mode-seeking) and forward KL (mode-covering) divergences. 
+            Prior work typically shows that the benefits of mode-seeking behavior 
+            of this sort are more apparent when the model 𝑝(𝑥) is unable to realize 
+            the target distribution 𝑞(𝑥), such that minimizing either KL would give rise to 
+            difference solutions. Unlike this prior argument, our theoretical argument in Theorem 6.5
+            shows that even when the 𝑝(𝑥) can fully represent the target distribution 𝑞(𝑥), 
+            when training with gradient descent, reverse KL is able to quickly
+            re-distribute probability mass to only a subset of the required categories likely in 
+            target distribution within a few gradient update steps. 
+            This is especially important when early stopping is used and the loss cannot be minimized to exactly 0 
+            on the training data -- in such cases, we would expect the reverse KL divergence to quickly redistribute probability mass in a way that is more effective.
+            We illustrate a toy version of this idea using a numerical toy experiment as seen below.
+          </p>
+        </div>
+        <center>
+        <img src="./static/images/theory_toy.png"
+          width="90%"
+          alt="On-Policy Sampling."
+          class="mode-seeking-image"/>
+        </center>
+      </div>
+    </div>
+    <div class="content has-text-centered">
+      <p>
+        <b>Empirical Example contrasting mode-seeking (Reverse KL) and mode-covering (forward KL) objectives.</b>
+      </p>
+    </div>
+    <div class="box" style="background-color:aliceblue">
+      <div class="content has-text-justified">
+        <p>
+          <b>Takeaway: </b>We conceptually unify on-policy sampling and negative gradients under the notion of mode-seeking objectives, 
+          extended to categorical distributions. An analysis of the behavior of some representative mode-seeking and mode-covering objectives
+          corroborates our empirical observations in this paper.
+        </p>
+      </div>
+    </div>
+    <!--/ Animation. -->
+  </div>
+</section>
+
+<hr>
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code> 
+      @inproceedings{
+        tajwar2024preference,
+        title={Preference Fine-Tuning of {LLM}s Should Leverage Suboptimal, On-Policy Data},
+        author={Fahim Tajwar and Anikait Singh and Archit Sharma and Rafael Rafailov and Jeff Schneider and Tengyang Xie and Stefano Ermon and Chelsea Finn and Aviral Kumar},
+        booktitle={Forty-first International Conference on Machine Learning},
+        year={2024},
+        url={https://openreview.net/forum?id=bWNPx6t0sF}
+        }
+</code></pre>
+<!-- journal   = {ICML}, -->
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+         href="./static/pdf/understanding_rlhf.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/Asap7772/understanding-rlhf" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <p>
+        Corresponding Authors: <a href="mailto:anikait@stanford.edu">Anikait Singh</a>, <a href="mailto:ftajwar@cs.cmu.edu">Fahim Tajwar</a>.<br>
+        We thank the Nerfies Team for their <a href="https://github.com/nerfies/nerfies.github.io">website template</a>.
+      </p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
