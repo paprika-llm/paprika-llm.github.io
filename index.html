@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="description"
-        content="Study the role of on-policy sampling and negative gradients in existing preference fine-tuning algorithms.">
-  <meta name="keywords" content="RLHF, Preference Fine-Tuning, Synthetic Data, PPO, DPO, RL, LLMs">
+        content="A fine-tuning framework to improve LLMs' strategic exploration and sequential decision making capabilities">
+  <meta name="keywords" content="LLM, Synthetic data, Multiturn finetuning">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Understanding RLHF</title>
 
@@ -61,48 +61,33 @@
     <div class="container is-max-desktop">
       <div class="columns is-centered">
         <div class="column has-text-centered">
-          <h1 class="title is-1 publication-title">Preference Fine-Tuning of LLMs Should Leverage Suboptimal, On-Policy Data</h1>
+          <h1 class="title is-1 publication-title">Training a Generally Curious Agent</h1>
           <div class="is-size-5 publication-authors">
             <span class="author-block">
               <a href="https://tajwarfahim.github.io/">Fahim Tajwar</a><sup>*1</sup>,</span>
             <span class="author-block">
-              <a href="https://asap7772.github.io/">Anikait Singh</a><sup>*2</sup>,</span>
+              <a href="https://yidingjiang.github.io/">Yiding Jiang</a><sup>*1</sup>,</span>
               <span class="author-block">
-              <a href="https://architsharma97.github.io/">Archit Sharma</a><sup>2</sup>,
+              <a href="https://abitha-thankaraj.github.io/">Abitha Thankaraj</a><sup>1</sup>,
             </span>
             <span class="author-block">
-              <a href="https://rmrafailov.github.io/">Rafael Rafailov</a><sup>2</sup>,
+              <a href="https://www.linkedin.com/in/sumaitasr/">Sumaita Sadia Rahman</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://zicokolter.com/">J Zico Kolter</a><sup>1</sup>,
             </span>
             <span class="author-block">
               <a href="https://www.cs.cmu.edu/~schneide/">Jeff Schneider</a><sup>1</sup>,
             </span>
             <span class="author-block">
-              <a href="https://tengyangxie.github.io/">Tengyang Xie</a><sup>3</sup>,
+              <a href="https://www.cs.cmu.edu/~rsalakhu/">Ruslan Salakhutdinov</a><sup>3</sup>,
             </span>
-            <span class="author-block">
-              <a href="https://cs.stanford.edu/~ermon/">Stefano Ermon</a><sup>2</sup>
-            </span>
-            <span class="author-block">
-              <a href="https://ai.stanford.edu/~cbfinn/">Chelsea Finn</a><sup>2</sup>
-            </span>
-            <span class="author-block">
-              <a href="https://aviralkumar2907.github.io/">Aviral Kumar</a><sup>4</sup>
-            </span>
-          </div>
 
           <div class="is-size-5 publication-authors">
-            <span class="author-block"><sup>*</sup>Equal Contribution (coin-flip)</span>
+            <span class="author-block"><sup>*</sup>Equal Contribution</span>
             <span class="author-block"><sup>1</sup>Carnegie Mellon University</span>
-            <span class="author-block"><sup>2</sup>Stanford University</span>
-            <br/>
-            <span class="author-block"><sup>3</sup>University of Wisconsin, Madison</span>
-            <span class="author-block"><sup>4</sup>Google DeepMind</span>
+            <span class="author-block"><sup>2</sup>North Carolina State University</span>
           </div>
-
-          <div class="is-size-5 publication-authors">
-            <span class="author-block">
-              ICML 2024
-            </span>
 
           <div class="column has-text-centered">
             <div class="publication-links">
@@ -500,16 +485,16 @@
   <div class="container is-max-desktop content">
     <h2 class="title">BibTeX</h2>
     <pre><code> 
-      @inproceedings{
-        tajwar2024preference,
-        title={Preference Fine-Tuning of {LLM}s Should Leverage Suboptimal, On-Policy Data},
-        author={Fahim Tajwar and Anikait Singh and Archit Sharma and Rafael Rafailov and Jeff Schneider and Tengyang Xie and Stefano Ermon and Chelsea Finn and Aviral Kumar},
-        booktitle={Forty-first International Conference on Machine Learning},
-        year={2024},
-        url={https://openreview.net/forum?id=bWNPx6t0sF}
-        }
+      @misc{tajwar2025traininggenerallycuriousagent,
+        title={Training a Generally Curious Agent}, 
+        author={Fahim Tajwar and Yiding Jiang and Abitha Thankaraj and Sumaita Sadia Rahman and J Zico Kolter and Jeff Schneider and Ruslan Salakhutdinov},
+        year={2025},
+        eprint={2502.17543},
+        archivePrefix={arXiv},
+        primaryClass={cs.LG},
+        url={https://arxiv.org/abs/2502.17543}, 
+      }
 </code></pre>
-<!-- journal   = {ICML}, -->
   </div>
 </section>
 
@@ -518,16 +503,16 @@
   <div class="container">
     <div class="content has-text-centered">
       <a class="icon-link"
-         href="./static/pdf/understanding_rlhf.pdf">
+         href="https://arxiv.org/pdf/2502.17543">
         <i class="fas fa-file-pdf"></i>
       </a>
-      <a class="icon-link" href="https://github.com/Asap7772/understanding-rlhf" class="external-link" disabled>
+      <a class="icon-link" href="https://github.com/tajwarfahim/paprika" class="external-link" disabled>
         <i class="fab fa-github"></i>
       </a>
     </div>
     <div class="columns is-centered">
       <p>
-        Corresponding Authors: <a href="mailto:anikait@stanford.edu">Anikait Singh</a>, <a href="mailto:ftajwar@cs.cmu.edu">Fahim Tajwar</a>.<br>
+        Corresponding Authors: <a href="mailto:ftajwar@cs.cmu.edu">Fahim Tajwar</a>.<br>
         We thank the Nerfies Team for their <a href="https://github.com/nerfies/nerfies.github.io">website template</a>.
       </p>
     </div>
