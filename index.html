@@ -284,116 +284,31 @@
           <b>(PAPRIKA improves success rate on a diverse range of task groups)</b> Average success rate on 6 representative task groups, with shaded areas representing standard error over 3 random seeds. PAPRIKA improves performance on all of them after fine-tuning on only roughly 22,500 total trajectories.
         </div>
 
-        We characterize fine-tuning methods based on three key properties:
-        <div class="content has-text-justified">
-          <ol>
-            <li><b>on-policy sampling:</b> explicit sampling of new responses from the policy or purely learning from offline data</li>
-            <li><b>on-policy sample reuse:</b> for only those approaches that perform on-policy sampling, whether the approach makes more 
-              than one gradient update on a given prompt-response (𝑥, 𝑦) pair</li>
-            <li><b>negative gradient:</b> whether the approach explicitly minimizes a loss that attempts to “push-down” likelihood on 
-              certain responses by multiplying the gradient of their likelihood with a negative coefficient </li>
-          </ol>
-        </div>
-        <center>
-        <img src="./static/images/characterize.png"
-          alt="On-Policy Sampling."
-          width="75%"
-          class="on-policy-image"/>
-        </center>
-        <div class="content has-text-centered">
-          We characterize existing fine-tuning methods using these criterion.
-        </div>
-        <!-- Interpolating. -->
-        <h3 class="title is-4">On-Policy Sampling</h3>
-        <div class="content has-text-justified">
-          <p>
-            To study the impact of on-policy sampling, we vary the extent to which updates are made on data from the current policy. 
-            Below, we introduce Algorithm 1, which is a encapsulates how fine-tuning algorithms updates on preference data.
-          </p>
-        </div>
-        <center>
-        <img src="./static/images/finetuning_algo.png"
-          alt="Algorithm 1."
-          width="75%"
-          class="algo-one-image"/>
-        </center>
-        <div class="content has-text-centered">
-          We characterize existing fine-tuning methods using the following algorithmic formulation.
-        </div>
+        <h3 class="title is-4">PAPRIKA can teach LLMs strategies that generalize zero-shot to a new task group.</h3>
 
-        <div class="content has-text-justified">
-          <p>
-            One way in which we can control the amount of on-policy sampling in Algorithm 1 is by by varying the total number of samples |𝒟| = 𝐵/𝐶 × 𝐶 = 𝐵 
-            used for a given training iteration but keeping minibatch size 𝑀 used for the gradient update fixed, assuming the algorithm performs exactly one pass over all this sampled data. One result from the paper is shown below:
-          </p>
-        </div>
-
-        <center>
-        <img src="./static/images/alpaca_bs.png"
-          width="90%"
-          alt="On-Policy Sampling."
-          class="on-policy-image"/>
-        </center>
-        <div class="content has-text-centered">
-          <p>
-            <b>Performance on AlpacaFarm with varying batch sizes.</b> We see that decreasing the batch size improves performance, 
-            which leads to more on-policy sampling leads to better performance on the AlpacaFarm domain. Empirically, we see benefits 
-            of this sampling when the reference policy is far from the optimal policy.
-          </p>
-        </div>
+        The next important question we study is whether the strategies learned by PAPRIKA can zero-shot transfer to entirely different groups of tasks. To do so, we perform a set of leave-one-out (LOO) experiments: we randomly choose one group (e.g., 20 questions) from our set of environments, train the LLM on trajectories generated from every other group, and test the resulting model's performance on the left-out group. Our results show that PAPRIKA (LOO) outperforms the starting model, Llama-3.1-8B-Instruct, in 6 representative task groups. This shows that the strategic exploration taught by PAPRIKA is not tied to a particular environment, and scaling up the number of task groups can be a viable solution for teaching LLMs general in-context RL abilities.
         
-        <div class="box" style="background-color:aliceblue">
-          <div class="content has-text-justified">
-            <p>
-              <b>Takeaway: </b>On-policy sampling generally improves performance and efficiency, especially in cases when the 
-              peak of reward appears farther from the reference policy, even when the reward model is learned from the same 
-              preference dataset that methods use without on-policy learning also use. In some cases, sample reuse can reduce 
-              the dependency on on-policy sampling of data, but it presents a tradeoff by reducing exploration of the response space.
-            </p>
-          </div>
-        </div>
-        <!--/ Interpolating. -->
+        <center>
+          <img src="./static/images/paprika_generalization.png"
+            alt="paprika_generalization"
+            width="90%"
+            class="paprika_generalization"/>
+        </center>
 
-        <!-- Re-rendering. -->
-        <h3 class="title is-4">Negative Gradients</h3>
-        <div class="content has-text-justified">
-          <p>
-          To understand the role of negative gradient, we will compare contrastive algorithms (e.g., DPO or IPO) with maximum likelihood supervised methods (e.g., Best-of-N) in a fully offline setting, 
-          where no new on-policy samples are collected. In the paper, we compare various algorithms and also explore mechanisms behind the behaviors of methods. 
-
-          Our main finding is that negative gradients often speed up convergence of algorithms, often allowing them to reach a better solution. For example, 
-          in one of the settings, we compare supervised Best-of-N to supervised Best-of-N with a negative gradient explicitly added and observe that the latter
-          is able to quickly learn to find a better solution. Likewise we also find DPO attains better results.
-          </p>
+        <div class="content has-text-centered">
+          <b>(Testing generalization of PAPRIKA via leave-one-out experiments)</b> We test PAPRIKA's zero-shot performance on unseen task groups by leave-one-out (LOO) experiments, where we train the LLM on trajectories from every task group except the group we test on. All evaluations are done at temperature 0.7 and we report average success rate. Our experiments demonstrate that PAPRIKA can teach an LLM sequential decision making abilities that often transfers well to new tasks without needing any additional training.
         </div>
+  
+        <h3 class="title is-4">Curriculum Learning Can Improve PAPRIKA's Sample Complexity</h3>
+
+        We test our curriculum learning algorithm on 20 questions, using GPT-4o-mini defined easy, medium, and hard task group clustering of the hidden topics. Our curriculum outperforms uniform sampling over 3 rounds of iterative training in terms of both average and pass@4 success rate, showcasing its potential for improving PAPRIKA's sample complexity.
 
         <center>
-        <img src="./static/images/neg_grad.png"
-          width="90%"
-          alt="On-Policy Sampling."
-          class="on-policy-image"/>
+          <img src="./static/images/paprika_curriculum.png"
+            alt="paprika_curriculum"
+            width="90%"
+            class="paprika_curriculum"/>
         </center>
-        
-        <div class="content has-text-centered">
-          <p>
-            <b>Negative gradients in AlpacaFarm (left) and UltraFeedback (right).</b> For these domains, we consider the increase in average gold reward 
-            compared to the SFT model for different offline approaches. Algorithms with a negative gradient such as DPO outperform approaches 
-            such as Pref-FT, which do not utilize any negative gradient term in their objective.
-          </p>
-        </div>
-
-        <center>
-        <img src="./static/images/neg_grad_rew.png"
-          width="90%"
-          alt="On-Policy Sampling."
-          class="on-policy-image"/>
-        </center>
-        <div class="content has-text-centered">
-          <p>
-            <b>DPO vs Pref-FT Reward Margin.</b> The reward margin between the preferred and dispreferred responses for contrastive algorithms such as 
-            DPO is higher than maximum likelihood algorithms such as Pref-FT.
-          </p>
-        </div>
         
         <div class="box" style="background-color:aliceblue">
           <div class="content has-text-justified">
