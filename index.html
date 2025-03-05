@@ -280,10 +280,8 @@
             class="paprika_success_rate"/>
         </center>
 
-        <div class="box" style="background-color:aliceblue"></div>
-          <div class="content has-text-centered">
-            <b>(PAPRIKA improves success rate on a diverse range of task groups)</b> Average success rate on 6 representative task groups, with shaded areas representing standard error over 3 random seeds. PAPRIKA improves performance on all of them after fine-tuning on only roughly 22,500 total trajectories.
-          </div>
+        <div class="content has-text-centered">
+          <b>(PAPRIKA improves success rate on a diverse range of task groups)</b> Average success rate on 6 representative task groups, with shaded areas representing standard error over 3 random seeds. PAPRIKA improves performance on all of them after fine-tuning on only roughly 22,500 total trajectories.
         </div>
 
         <h3 class="title is-4">PAPRIKA can teach LLMs strategies that generalize zero-shot to a new task group.</h3>
@@ -297,10 +295,8 @@
             class="paprika_generalization"/>
         </center>
 
-        <div class="box" style="background-color:aliceblue"></div>
-          <div class="content has-text-centered">
-            <b>(Testing generalization of PAPRIKA via leave-one-out experiments)</b> We test PAPRIKA's zero-shot performance on unseen task groups by leave-one-out (LOO) experiments, where we train the LLM on trajectories from every task group except the group we test on. All evaluations are done at temperature 0.7 and we report average success rate. Our experiments demonstrate that PAPRIKA can teach an LLM sequential decision making abilities that often transfers well to new tasks without needing any additional training.
-          </div>
+        <div class="content has-text-centered">
+          <b>(Testing generalization of PAPRIKA via leave-one-out experiments)</b> We test PAPRIKA's zero-shot performance on unseen task groups by leave-one-out (LOO) experiments, where we train the LLM on trajectories from every task group except the group we test on. All evaluations are done at temperature 0.7 and we report average success rate. Our experiments demonstrate that PAPRIKA can teach an LLM sequential decision making abilities that often transfers well to new tasks without needing any additional training.
         </div>
   
         <h3 class="title is-4">Curriculum Learning Can Improve PAPRIKA's Sample Complexity</h3>
