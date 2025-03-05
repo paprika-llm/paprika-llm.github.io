@@ -6,7 +6,7 @@
         content="A fine-tuning framework to improve LLMs' strategic exploration and sequential decision making capabilities">
   <meta name="keywords" content="LLM, Synthetic data, Multiturn finetuning">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Understanding RLHF</title>
+  <title>paprika</title>
 
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
         rel="stylesheet">
@@ -80,7 +80,7 @@
               <a href="https://www.cs.cmu.edu/~schneide/">Jeff Schneider</a><sup>1</sup>,
             </span>
             <span class="author-block">
-              <a href="https://www.cs.cmu.edu/~rsalakhu/">Ruslan Salakhutdinov</a><sup>3</sup>,
+              <a href="https://www.cs.cmu.edu/~rsalakhu/">Ruslan Salakhutdinov</a><sup>2</sup>,
             </span>
 
           <div class="is-size-5 publication-authors">
@@ -156,21 +156,18 @@
         <h2 class="title is-3" id="abstract">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            Learning from preference labels plays a crucial role in fine-tuning large language models. There are several
-            distinct approaches for preference fine-tuning, including supervised learning, on-policy reinforcement learning
-            (RL), and contrastive learning. Different methods come with different implementation tradeoffs and perfor-
-            mance differences, and existing empirical findings present different conclusions, for instance, some results
-            show that online RL is quite important to attain good fine-tuning results, while others find (offline) contrastive
-            or even purely supervised methods sufficient. This raises a natural question: what kind of approaches are
-            important for fine-tuning with preference data and why? In this paper, we answer this question by performing
-            a rigorous analysis of a number of fine-tuning techniques on didactic and full-scale LLM problems. Our main
-            finding is that, in general, approaches that use on-policy sampling or attempt to minimize the likelihood on
-            certain responses (i.e., employ a negative gradient) outperform offline and maximum likelihood objectives. We
-            conceptualize our insights and unify methods that use on-policy sampling or negative gradient under the notion
-            of mode-seeking objectives, extended to categorical distributions. Mode-seeking objectives are able to alter
-            probability mass on specific bins of a categorical distribution at a fast rate compared to maximum likelihood,
-            allowing them to relocate masses across bins more effectively. Our analysis prescribes actionable insights for
-            preference fine-tuning of LLMs and informs how data should be collected for maximal improvement.
+            Efficient exploration is essential for intelligent systems interacting with their environment, but 
+            existing language models often fall short in scenarios that require strategic information gathering. 
+            In this paper, we present PAPRIKA, a fine-tuning approach that enables language models to develop general 
+            decision-making capabilities that are not confined to particular environments. By training on synthetic 
+            interaction data from different tasks that require diverse strategies, \ours{} teaches models to explore and 
+            adapt their behavior on a new task based on environment feedback in-context without more gradient updates. 
+            Experimental results show that models fine-tuned with \ours{} can effectively transfer their learned 
+            decision-making capabilities to entirely unseen tasks without additional training. Unlike traditional training, 
+            our approach's primary bottleneck lies in sampling useful interaction data instead of model updates. 
+            To improve sample efficiency, we propose a curriculum learning strategy that prioritizes sampling trajectories 
+            from tasks with high learning potential. These results suggest a promising path towards AI systems that can 
+            autonomously solve novel sequential decision-making problems that require interactions with the external world.
           </p>
         </div>
       </div>
@@ -512,7 +509,7 @@
     </div>
     <div class="columns is-centered">
       <p>
-        Corresponding Authors: <a href="mailto:ftajwar@cs.cmu.edu">Fahim Tajwar</a>.<br>
+        Corresponding Author: <a href="mailto:ftajwar@cs.cmu.edu">Fahim Tajwar</a>.<br>
         We thank the Nerfies Team for their <a href="https://github.com/nerfies/nerfies.github.io">website template</a>.
       </p>
     </div>
