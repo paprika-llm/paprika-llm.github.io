@@ -274,7 +274,7 @@
         <h2 class="title is-3" id="empirical">Empirical Results</h2>
 
         <!-- Interpolating. -->
-        <h3 class="title is-4">PAPRIKA improves LLM decision making abilties.</h3>
+        <h3 class="title is-4">PAPRIKA improves LLM decision making abilties</h3>
         Training on 10 diverse tasks groups result in performance improvement on heldout tasks from each group.
         
         <center>
@@ -292,7 +292,7 @@
           </div>
         </div>
 
-        <h3 class="title is-4">PAPRIKA can teach LLMs strategies that generalize zero-shot to a new task group.</h3>
+        <h3 class="title is-4">PAPRIKA can teach LLMs strategies that generalize zero-shot to a new task group</h3>
 
         The next important question we study is whether the strategies learned by PAPRIKA can zero-shot transfer to entirely different groups of tasks. To do so, we perform a set of leave-one-out (LOO) experiments: we randomly choose one group (e.g., 20 questions) from our set of environments, train the LLM on trajectories generated from every other group, and test the resulting model's performance on the left-out group. Our results show that PAPRIKA (LOO) outperforms the starting model, Llama-3.1-8B-Instruct, in 6 representative task groups. This shows that the strategic exploration taught by PAPRIKA is not tied to a particular environment, and <b>scaling up the number of task groups in PAPRIKA can be a viable solution for teaching LLMs general in-context RL abilities</b>.
         
