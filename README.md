@@ -1,4 +1,4 @@
-# Understanding RLHF
+# Training a Generally Curious Agent
 
 This is the repository that contains source code for the [Training a Generally Curious Agent](https://paprika-llm.github.io/).
 
