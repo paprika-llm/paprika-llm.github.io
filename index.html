@@ -325,63 +325,10 @@
             </p>
           </div>
         </div>
-
-        <h3 class="title is-4">Complementary Nature of On-Policy Sampling and Negative Gradients</h3>
-        <div class="content has-text-justified">
-          <p>
-            On-policy sampling and offline negative gradients present complementary benefits, in that
-            the best offline loss function with negative gradients can be used to train on on-policy data,
-            improving over on-policy RL or supervised learning. Conceptually, while sampling responses
-            on-policy provides coverage of the response space, an effective negative gradient loss provides
-            a stronger learning signal given a set of samples. It can also result in computational benefits.
-          </p>
-        </div>
-
-        <center>
-        <img src="./static/images/complimentarity.png"
-          width="90%"
-          alt="On-Policy Sampling."
-          class="on-policy-image"/>
-        </center>
         
-        <div class="content has-text-centered">
-          <p>
-            <b>Complementary benefit of on-policy sampling and negative gradients on the synthetic LLM length experiments.</b> 
-            Online DPO performs the best where optimal policy and reference policy lies far from each other 
-            (min length and skew length), and all algorithms perform similarly when these two policies are close (mode length).
-          </p>
-        </div>
-        <!--/ Re-rendering. -->
-
-        <div class="box" style="background-color:aliceblue">
-          <div class="content has-text-justified">
-            <p>
-              <b>Takeaway: </b>We observe that the best offline loss function with negative gradients can be used to train on on-policy data, improving over on-policy RL or supervised learning. 
-              In our experiments, we find this loss function to be a contrastive loss akin to DPO or IPO. Running these contrastive methods on on-policy data helps improve performance. 
-              This can also result in computational benefits, improving over wall-clock time.
-            </p>
-          </div>
-        </div>
-        
-        <hr>
         
       </div>
     </div>
-    <div class="content has-text-centered">
-      <p>
-        <b>Empirical Example contrasting mode-seeking (Reverse KL) and mode-covering (forward KL) objectives.</b>
-      </p>
-    </div>
-    <div class="box" style="background-color:aliceblue">
-      <div class="content has-text-justified">
-        <p>
-          <b>Takeaway: </b>We conceptually unify on-policy sampling and negative gradients under the notion of mode-seeking objectives, 
-          extended to categorical distributions. An analysis of the behavior of some representative mode-seeking and mode-covering objectives
-          corroborates our empirical observations in this paper.
-        </p>
-      </div>
-    </div>
-    <!--/ Animation. -->
   </div>
 </section>
 
