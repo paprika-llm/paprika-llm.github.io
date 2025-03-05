@@ -211,21 +211,21 @@
             class="paprika_task_groups"/>
         </center>
 
-        <h3 class="title is-4">Synthetic LLM</h3>
+        <h3 class="title is-4">Optimization</h3>
         <div class="content has-text-justified">
           <!-- Create Bullet Point List to Summarize -->
-          <ul>
-            <li> Used to study the impact of coverage conditions and geometric relationships on different fine-tuning algorithms</li>
-            <li> Constructed 3 different scenarios based on the length of the response:</li>
-            <ul>
-              <li><b>Min length:</b> preferred responses are shorter in length. </li>
-              <li><b>Mode length:</b> preferred responses are close to the mode length of responses in the preference dataset.</li>
-              <li><b>Skew length:</b> preferred responses are shorter in length, but we modify the preference dataset from Min Length, where dataset completions are truncated to shorter lengths, leading to a skewed length distribution.</li>
-            </ul>
-          </ul>
+          We use a multiturn variant of supervised fine-tuning (SFT) and Direct Preference Optimization (<a href="https://arxiv.org/abs/2305.18290">DPO</a>) to fine-tune our models, where log probabilities are calculated autoregressively over the entire trajectory, but then
+          only the log probabilities of the agent generated tokens are considered for calculating the training loss. In practice, we use the sum of SFT and DPO (similar to <a href="https://arxiv.org/abs/2404.19733">RPO</a>) losses to optimize our LLMs.
         </div>
 
-        <h3 class="title is-4">Full-Scale LLM</h3>
+        <center>
+          <img src="./static/images/optimization_objective.png"
+            width="90%"
+            alt="optimization_objective"
+            class="optimization_objective"/>
+        </center>
+
+        <h3 class="title is-4">Scalable Online Curriculum Learning Algorithm</h3>
         <div class="content has-text-justified">
           <!-- Create Bullet Point List to Summarize -->
           <ul>
