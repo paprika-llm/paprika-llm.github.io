@@ -91,16 +91,6 @@
 
           <div class="column has-text-centered">
             <div class="publication-links">
-              <!-- PDF Link. -->
-              <span class="link-block">
-                <a href="https://arxiv.org/pdf/2502.17543"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fas fa-file-pdf"></i>
-                  </span>
-                  <span>Paper</span>
-                </a>
-              </span>
               <span class="link-block">
                 <a href="https://arxiv.org/abs/2502.17543"
                    class="external-link button is-normal is-rounded is-dark">
@@ -254,9 +244,30 @@
 
         <h3 class="title is-4">Scalable Online Curriculum Learning Algorithm</h3>
         <div class="content has-text-justified">
-          We train on self-generated data,
-          
+          PAPRIKA's primary bottleneck lies in generating training trajectories, rather than model updates. So it is crucial that we generate more rollouts on tasks that have high learning potential. 
         </div>
+
+        <div class="content has-text-justified">
+          However, it is hard to know which tasks would have high learning potential without generating rollouts first. We make the additional assumption that similar tasks have similar learning potential, and that we have task similarity groups over our set of tasks. Under this assumption, we can sample a few tasks from a task group, generate multiple trajectories per task to calculate the coefficient of variation (over number of turns, which we use as a proxy for reward). We use the coefficient of variation as a metric for measuring learning potential.
+        </div>
+
+        <center>
+          <img src="./static/images/measuring_learning_potential.png"
+            width="70%"
+            alt="learning_potential"
+            class="learning_potential"/>
+        </center>
+
+        <div class="content has-text-justified">
+          Once we have metric for measuring learning potential, we naturally want to maximize the learning potential of our sampled dataset, and we can treat this as multi-armed bandit (MAB) problem, for which we can employ the Upper Confidence Bound (UCB) algorithm to sample tasks from the collection of task groups. 
+        </div>
+
+        <center>
+          <img src="./static/images/task_selection_with_UCB.png"
+            width="70%"
+            alt="curriculum_algorithm"
+            class="curriculum_algorithm"/>
+        </center>
 
         <h3 class="title is-4">Coverage Conditions and Geometric Relationships</h3>
 
