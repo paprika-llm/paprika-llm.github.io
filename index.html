@@ -45,10 +45,7 @@
         PAPRIKA
       </a>
       <a class="navbar-item" href="#paprika" style="color: #fff; border-bottom: 0px solid #fff;">
-        Empirical Analysis
-      </a>
-      <a class="navbar-item" href="#theory" style="color: #fff; border-bottom: 0px solid #fff;">
-        Theoretical Analysis
+        Empirical Results
       </a>
       <a class="navbar-item" href="#BibTeX" style="color: #fff; border-bottom: 0px solid #fff;">
         BibTeX
@@ -253,7 +250,7 @@
 
         <center>
           <img src="./static/images/coefficient_of_variation.png"
-            width="70%"
+            width="50%"
             alt="learning_potential"
             class="learning_potential"/>
         </center>
@@ -264,17 +261,28 @@
 
         <center>
           <img src="./static/images/task_selection_with_UCB.png"
-            width="70%"
+            width="50%"
             alt="curriculum_algorithm"
             class="curriculum_algorithm"/>
         </center>
         
 
-        <h2 class="title is-3" id="empirical">Empirical Analysis</h2>
+        <h2 class="title is-3" id="empirical">Empirical Results</h2>
 
         <!-- Interpolating. -->
-        <h3 class="title is-4">Characterizing Fine-Tuning Methods</h3>
-        In this work, we study the role of on-policy sampling and negative gradients in existing preference fine-tuning algorithms. 
+        <h3 class="title is-4">PAPRIKA improves LLM decision making abilties.</h3>
+        First, training on 10 diverse tasks groups result in performance improvement on heldout tasks from each group.
+
+        <img src="./static/images/paprika_success_rate.png"
+          alt="paprika_success_rate"
+          width="75%"
+          class="paprika_success_rate"/>
+        </center>
+
+        <div class="content has-text-centered">
+          <b>(PAPRIKA improves success rate on a diverse range of task groups)</b> Average success rate on 6 representative task groups, with shaded areas representing standard error over 3 random seeds. PAPRIKA improves performance on all of them after fine-tuning on only roughly 22,500 total trajectories.
+        </div>
+
         We characterize fine-tuning methods based on three key properties:
         <div class="content has-text-justified">
           <ol>
