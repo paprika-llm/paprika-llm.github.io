@@ -245,7 +245,7 @@
         </div>
 
         <div class="content has-text-justified">
-          However, it is hard to know which tasks would have high learning potential without generating rollouts first. We make the additional assumption that similar tasks have similar learning potential, and that we have task similarity groups over our set of tasks. Under this assumption, we can sample a few tasks from a task group, generate multiple trajectories per task to calculate the coefficient of variation (over number of turns, which we use as a proxy for reward). We use the coefficient of variation as a metric for measuring learning potential.
+          However, it is hard to know which tasks would have high learning potential without generating rollouts first. To make progress, we make the additional assumption that similar tasks have similar learning potential, and that we have task similarity groups over our set of all tasks. Next, we use the coefficient of variation as a metric for measuring learning potential. Given a task group, we can sample one task from it, generate multiple trajectories for this task to calculate the coefficient of variation (COV) (over number of turns, which we use as a proxy for reward). We can then use this task COV to update our estimate of the task group's COV distribution, which can tell us which task group to sample from next if we want to maximize the COV of our sampled tasks.
         </div>
 
         <center>
@@ -256,7 +256,7 @@
         </center>
 
         <div class="content has-text-justified">
-          Once we have metric for measuring learning potential, we naturally want to maximize the learning potential of our sampled dataset, and we can treat this as multi-armed bandit (MAB) problem, for which we can employ the Upper Confidence Bound (UCB) algorithm to sample tasks from the collection of task groups. 
+          Formally, once we have metric for measuring learning potential, we naturally want to maximize the learning potential of our sampled dataset, and we can treat this as multi-armed bandit (MAB) problem, for which we can employ the Upper Confidence Bound (UCB) algorithm to sample tasks from the collection of task groups. 
         </div>
 
         <center>
