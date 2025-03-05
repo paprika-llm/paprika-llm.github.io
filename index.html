@@ -268,39 +268,7 @@
             alt="curriculum_algorithm"
             class="curriculum_algorithm"/>
         </center>
-
-        <h3 class="title is-4">Coverage Conditions and Geometric Relationships</h3>
-
-        <div class="content has-text-justified">
-          <p>
-            The performance of preference-finetuning algorithms can be affected by several factors: (1) the coverage of the preference dataset, 
-            (2) the reference policy initialization, and (3) the underlying ground truth reward distribution. To study this impact, we consider two
-            orthogonal axes: [C1] the geometric alignment between the ground-truth reward function and the reference policy initialization and [C2] the 
-            coverage of the preference data used to train the surrogate reward model relative to the reference policy. Condition [C1] is reminiscent of 
-            concentrability coefficient in RL and condition [C2] fundamentally imposes a condition on statistical errors in the reward model on different responses. 
-          </p>
-
-          <p>
-            Understanding the behavior of various approaches as a function of these factors will allow us to better understand the performance of 
-            various approaches on downstream fine-tuning in terms of problem geometry [C1] and statistical learning considerations [C2]. More concretely, in the synthetic LLM setting we consider the following cases
-          </p>
-        </div>
         
-        <center>
-        <img src="./static/images/coverage.png"
-          width="90%"
-          alt="On-Policy Sampling."
-          class="on-policy-image"/>
-        </center>
-        
-        <div class="content has-text-centered">
-          <p>
-            We consider three different types of problem scenarios: Min Length, Mode Length, and Skew Length These scenarios are designed to test the
-            performance of different fine-tuning algorithms under different conditions.
-          </p>
-        </div>
-
-        <hr>
 
         <h2 class="title is-3" id="empirical">Empirical Analysis</h2>
 
@@ -469,41 +437,6 @@
         
         <hr>
         
-        <h2 class="title is-3" id="theory">Theory and Conceptual Unification</h2>
-        <div class="content has-text-justified">
-          <p>
-            With empirical results showing the benefits of on-policy sampling and negative gradient for preference fine-tuning of LLMs, 
-            we tie these two approaches together under the notion of mode-seeking objectives in contrast to mode-covering objectives 
-            such as (weighted / filtered) maximum likelihood.
-          </p>
-          <p>
-            In the paper, we argue (in Lemmas 6.1 and 6.2) that (1) on-policy algorithms are mode-seeking as they optimize the regularized
-            reverse-KL objective and (2) if the negative responses are chosen appropriately, then the contrastive update accelerates the 
-            rate of increase of probability mass on the preferred responses and exhibits mode-seeking behavior. For more details, 
-            formal definitions, and the proof of these theoretical results, please refer to the paper.
-        </div>
-        <div class="content has-text-justified">
-          <p>
-            We then also analyze the benefits of mode-seeking behavior formally via a case study on reverse (mode-seeking) and forward KL (mode-covering) divergences. 
-            Prior work typically shows that the benefits of mode-seeking behavior 
-            of this sort are more apparent when the model 𝑝(𝑥) is unable to realize 
-            the target distribution 𝑞(𝑥), such that minimizing either KL would give rise to 
-            difference solutions. Unlike this prior argument, our theoretical argument in Theorem 6.5
-            shows that even when the 𝑝(𝑥) can fully represent the target distribution 𝑞(𝑥), 
-            when training with gradient descent, reverse KL is able to quickly
-            re-distribute probability mass to only a subset of the required categories likely in 
-            target distribution within a few gradient update steps. 
-            This is especially important when early stopping is used and the loss cannot be minimized to exactly 0 
-            on the training data -- in such cases, we would expect the reverse KL divergence to quickly redistribute probability mass in a way that is more effective.
-            We illustrate a toy version of this idea using a numerical toy experiment as seen below.
-          </p>
-        </div>
-        <center>
-        <img src="./static/images/theory_toy.png"
-          width="90%"
-          alt="On-Policy Sampling."
-          class="mode-seeking-image"/>
-        </center>
       </div>
     </div>
     <div class="content has-text-centered">
