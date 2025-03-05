@@ -290,7 +290,7 @@
 
         <h3 class="title is-4">PAPRIKA can teach LLMs strategies that generalize zero-shot to a new task group.</h3>
 
-        The next important question we study is whether the strategies learned by PAPRIKA can zero-shot transfer to entirely different groups of tasks. To do so, we perform a set of leave-one-out (LOO) experiments: we randomly choose one group (e.g., 20 questions) from our set of environments, train the LLM on trajectories generated from every other group, and test the resulting model's performance on the left-out group. Our results show that PAPRIKA (LOO) outperforms the starting model, Llama-3.1-8B-Instruct, in 6 representative task groups. This shows that the strategic exploration taught by PAPRIKA is not tied to a particular environment, and scaling up the number of task groups can be a viable solution for teaching LLMs general in-context RL abilities.
+        The next important question we study is whether the strategies learned by PAPRIKA can zero-shot transfer to entirely different groups of tasks. To do so, we perform a set of leave-one-out (LOO) experiments: we randomly choose one group (e.g., 20 questions) from our set of environments, train the LLM on trajectories generated from every other group, and test the resulting model's performance on the left-out group. Our results show that PAPRIKA (LOO) outperforms the starting model, Llama-3.1-8B-Instruct, in 6 representative task groups. This shows that the strategic exploration taught by PAPRIKA is not tied to a particular environment, and <b>scaling up the number of task groups in PAPRIKA can be a viable solution for teaching LLMs general in-context RL abilities</b>.
         
         <center>
           <img src="./static/images/paprika_generalization.png"
@@ -309,7 +309,7 @@
   
         <h3 class="title is-4">Curriculum Learning Can Improve PAPRIKA's Sample Complexity</h3>
 
-        We test our curriculum learning algorithm on 20 questions, using GPT-4o-mini defined easy, medium, and hard task group clustering of the hidden topics. Our curriculum outperforms uniform sampling over 3 rounds of iterative training in terms of both average and pass@4 success rate, showcasing its potential for improving PAPRIKA's sample complexity.
+        We test our curriculum learning algorithm on 20 questions, using GPT-4o-mini defined easy, medium, and hard task group clustering of the hidden topics. Our curriculum outperforms uniform sampling over 3 rounds of iterative training in terms of both average and pass@4 success rate, showcasing its potential for improving the sample complexity of such methods, <b>potentially also working with Online RL</b>.
 
         <center>
           <img src="./static/images/paprika_curriculum.png"
@@ -325,7 +325,25 @@
             </p>
           </div>
         </div>
+
+        <h3 class="title is-4">Example Trajectories</h3>
         
+        Here we list two example trajectories, one from the regular Llama-3.1-8B-Instruct model, and another from the PAPRIKA fine-tuned model, on the 20 questions task group. The hidden topic the agent has to guess is a <b>concept</b>, and the correct answer is <b>primary numbers</b>. We see qualitatively that PAPRIKA teaches the model to ask better quality questions.
+
+        <center>
+          <img src="./static/images/paprika_example_task_trajectories.png"
+            alt="paprika_example_task_trajectories"
+            width="70%"
+            class="paprika_example_task_trajectories"/>
+        </center>
+
+        <div class="box" style="background-color:aliceblue">
+          <div class="content has-text-justified">
+            <p>
+              <b>(Qualitative analysis of behaviors taught by PAPRIKA)</b> PAPRIKA not only improves over the starting model in terms of success rate and other metrics, but also shows better sequential decision making abilities. Here we present two example trajectories on 20 questions, where the hidden topic the agent has to guess is a <b>concept</b>, and the correct answer is <b>primary numbers</b>. PAPRIKA fine-tuned model asks much better quality questions and is able to guess the topic in 8 turns, whereas the regular instruct model cannot guess it after spending all 20 turns, in all 4 attempts that we ran (we only show first 9 turns for the sake of brevity).
+            </p>
+          </div>
+        </div>
         
       </div>
     </div>
