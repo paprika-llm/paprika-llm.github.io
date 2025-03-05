@@ -1,14 +1,18 @@
 # Understanding RLHF
 
-This is the repository that contains source code for the [Understanding RLHF website](https://understanding-rlhf.github.io).
+This is the repository that contains source code for the [Training a Generally Curious Agent](https://paprika-llm.github.io/).
 
 If you find our paper useful for your work please cite:
 ```
-@article{tajwar2024preference,
-  author    = {Tajwar and Singh, Sharma and Rafailov, Schneider and Xie, Ermon and Finn, Kumar},
-  title     = {Preference Fine-Tuning of LLMs Should Leverage Suboptimal, On-Policy Data},
-  year      = {2024},
-}
+    @misc{tajwar2025traininggenerallycuriousagent,
+      title={Training a Generally Curious Agent}, 
+      author={Fahim Tajwar and Yiding Jiang and Abitha Thankaraj and Sumaita Sadia Rahman and J Zico Kolter and Jeff Schneider and Ruslan Salakhutdinov},
+      year={2025},
+      eprint={2502.17543},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2502.17543}, 
+    }
 ```
 
 # Website License
