@@ -225,6 +225,10 @@
             class="paprika_task_groups"/>
         </center>
 
+        <div class="content has-text-justified">
+          We generate 20 samples per each task in the training split, then collected all the successful trajectories to form our supervised fine-tuning dataset. Next, we took the best trajectory per task (successful and achieved success with the fewest number of turns) and one of the lower scoring trajectories (unsuccessful or successful but with a significantly more number of turns) to form a preference pair. Ultimately, we end up with 17,181 SFT trajectories and 5260 trajectory preference pairs.
+        </div>
+
         <h3 class="title is-4">Optimization</h3>
         <div class="content has-text-justified">
           <!-- Create Bullet Point List to Summarize -->
