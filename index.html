@@ -120,6 +120,24 @@
                   <span>Code</span>
                   </a>
               </span>
+              <span class="link-block">
+                <a href="https://huggingface.co/datasets/ftajwar/paprika_SFT_dataset"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-database"></i>
+                  </span>
+                  <span>SFT Dataset</span>
+                  </a>
+              </span>
+              <span class="link-block">
+                <a href="https://huggingface.co/datasets/ftajwar/paprika_preference_dataset"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-database"></i>
+                  </span>
+                  <span>Preference Dataset</span>
+                  </a>
+              </span>
 
           </div>
         </div>
@@ -195,7 +213,7 @@
 
         <h2 class="title is-3" id="paprika">PAPRIKA</h2>
         <div class="content has-text-justified">
-          PAPRIKA aims to solve the above problems. First, we design a suite of complex decision-making tasks that require strategic information gathering to succeed. Next, we show that in the absence of known good algorithms, existing LLMs can generate trajectories with better decision making behaviors through diversity-encouraging sampling. We then finetune the LLMs to prefer higher performing trajectories (in a fashion similar to <a href="https://arxiv.org/abs/2203.14465">STaR</a>) and show that this leads to better decision making abilities at test-time. More importantly, these behaviors often generalize to unseen task groups without additional training. Finally, we propose a general curriculum learning algorithm that can dynamically choose which subset of tasks to train on next to improve data efficiency of such training methods. We next describe each component of PAPRIKA.
+          PAPRIKA aims to solve the above problems. First, we design a suite of complex decision-making tasks that require strategic information gathering to succeed. Next, we show that in the absence of known good algorithms, existing LLMs can generate trajectories with better decision making behaviors through diversity-encouraging sampling. We then finetune the LLMs to prefer higher performing trajectories (in a fashion similar to <a href="https://arxiv.org/abs/2203.14465">STaR</a>) and show that this leads to better decision making abilities at test-time. More importantly, <b>these behaviors often generalize to unseen task groups without additional training</b>. Finally, we propose a general curriculum learning algorithm that can dynamically choose which subset of tasks to train on next to improve data efficiency of such training methods. We next describe each component of PAPRIKA.
         </div>
         
         <h3 class="title is-4">Task Design</h3>
@@ -215,7 +233,7 @@
         <div class="content has-text-justified">
           <!-- Create Bullet Point List to Summarize -->
           We use a multiturn variant of supervised fine-tuning (SFT) and Direct Preference Optimization (<a href="https://arxiv.org/abs/2305.18290">DPO</a>) to fine-tune our models, where log probabilities are calculated autoregressively over the entire trajectory, but then
-          only the log probabilities of the agent generated tokens are considered for calculating the training loss. In practice, we use the sum of SFT and DPO (similar to <a href="https://arxiv.org/abs/2404.19733">RPO</a>) losses to optimize our LLMs.
+          only the log probabilities of the agent generated tokens are considered for calculating the training loss. In practice, we first run supervised finetuning, and then use the sum of SFT and DPO (similar to <a href="https://arxiv.org/abs/2404.19733">RPO</a>) losses to optimize our LLMs.
         </div>
 
         <center>
@@ -227,11 +245,8 @@
 
         <h3 class="title is-4">Scalable Online Curriculum Learning Algorithm</h3>
         <div class="content has-text-justified">
-          <!-- Create Bullet Point List to Summarize -->
-          <ul>
-            <li>Used to study the impact of fine-tuning algorithms on realistic LLM fine-tuning data</li>
-            <li>AlpacaFarm and UltraFeedback are commonly used domains</li>
-          </ul>
+          We train on self-generated data,
+          
         </div>
 
         <h3 class="title is-4">Coverage Conditions and Geometric Relationships</h3>
