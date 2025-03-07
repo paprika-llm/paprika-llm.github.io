@@ -153,14 +153,24 @@
       <img src="./static/images/final_picture_teaser.png"
         alt="Teaser image."
         class="teaser-image"/>
-      <h2 class="subtitle has-text-centered">
+      <!-- <h2 class="subtitle has-text-centered">
         Overview of <b>PAPRIKA</b>. We design a diverse set of tasks where an LLM agent needs strategic information gathering to succeed, 
         then train an LLM on self-generated data to prefer higher performing trajectories. The resulting behavior learned by PAPRIKA 
         can transfer zero-shot to unseen tasks, showcasing its potential to build general decision making agents.
-      </h2>
+      </h2> -->
     </div>
   </div>
 </section>
+
+<div class="box" style="background-color:aliceblue">
+  <div class="content has-text-justified">
+    <p>
+      Overview of <b>PAPRIKA</b>. We design a diverse set of tasks where an LLM agent needs strategic information gathering to succeed, 
+      then train an LLM on self-generated data to prefer higher performing trajectories. The resulting behavior learned by PAPRIKA 
+      can transfer zero-shot to unseen tasks, showcasing its potential to build general decision making agents.
+    </p>
+  </div>
+</div>
 
 
 <section class="section">
@@ -214,6 +224,13 @@
         <div class="content has-text-justified">
           PAPRIKA aims to solve the above problems. First, we design a suite of complex decision-making tasks that require strategic information gathering to succeed. Next, we show that in the absence of known good algorithms, existing LLMs can generate trajectories with better decision making behaviors through diversity-encouraging sampling. We then finetune the LLMs to prefer higher performing trajectories (in a fashion similar to <a href="https://arxiv.org/abs/2203.14465">STaR</a>) and show that this leads to better decision making abilities at test-time. More importantly, <b>these behaviors often generalize to unseen task groups without additional training</b>. Finally, we propose a general curriculum learning algorithm that can dynamically choose which subset of tasks to train on next to improve data efficiency of such training methods. We next describe each component of PAPRIKA.
         </div>
+
+        <center>
+          <img src="./static/images/paprika_overview.png"
+            width="90%"
+            alt="paprika_task_groups"
+            class="paprika_task_groups"/>
+        </center>
         
         <h3 class="title is-4">Task Design</h3>
         <div class="content has-text-justified">
